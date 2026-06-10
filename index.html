@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f6f2ea">
+  <title>RAPID ENGLISH | AIスピーキング練習</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Rapid English ホーム">
+      <span class="brand-mark">R</span>
+      <span>RAPID <b>ENGLISH</b></span>
+    </a>
+    <div class="top-actions">
+      <div class="streak" title="連続学習日数"><span>●</span> 3 DAYS</div>
+      <button class="icon-button" id="soundToggle" aria-label="音声を切り替える" title="音声オン・オフ">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5l4.5 4V5Zm4.5 4.2a4 4 0 0 1 0 5.6M18 6.5a8 8 0 0 1 0 11"/></svg>
+      </button>
+      <button class="avatar" aria-label="プロフィール">YA</button>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <aside class="sidebar">
+      <section class="lesson-summary">
+        <span class="eyebrow">TODAY'S LESSON</span>
+        <h1>Stage 11</h1>
+        <p>Advanced Callan-style revision</p>
+        <div class="progress-track" aria-label="レッスン進捗"><span id="sideProgress"></span></div>
+        <div class="progress-meta"><span id="progressLabel">0 / 12 questions</span><strong id="progressPercent">0%</strong></div>
+      </section>
+
+      <nav class="lesson-nav" aria-label="レッスンメニュー">
+        <button class="nav-item active"><span>01</span><div><b>Rapid Q&amp;A</b><small>質問に完全な文で即答</small></div><em>5</em></button>
+        <button class="nav-item"><span>02</span><div><b>Pattern Practice</b><small>文法と表現を反復する</small></div><em>4</em></button>
+        <button class="nav-item"><span>03</span><div><b>Correction Loop</b><small>訂正文をすぐに復唱</small></div><em>3</em></button>
+      </nav>
+
+      <div class="method-note">
+        <span class="note-icon">↯</span>
+        <div><b>DON'T TRANSLATE.</b><p>英語を英語のまま捉え、すぐに答えましょう。</p></div>
+      </div>
+    </aside>
+
+    <section class="lesson-stage">
+      <div class="stage-header">
+        <div>
+          <span class="live-dot"><i></i> RAPID Q&amp;A</span>
+          <h2>Listen fast. Answer fast. Correct fast.</h2>
+        </div>
+        <div class="pace-control" role="group" aria-label="話す速度">
+          <span>PACE</span>
+          <button data-rate="0.9">NORMAL</button>
+          <button class="active" data-rate="1">FAST</button>
+          <button data-rate="1.14">VERY FAST</button>
+        </div>
+      </div>
+
+      <div class="teacher-card">
+        <div class="teacher-visual" aria-hidden="true">
+          <div class="teacher-orbit"></div>
+          <div class="teacher-face"><span></span><span></span><i></i></div>
+          <div class="voice-bars"><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="teacher-content">
+          <div class="speaker-label"><span>AI TEACHER</span><i id="teacherState">READY</i></div>
+          <p class="question" id="questionText">準備ができたら、レッスンを始めましょう。</p>
+          <p class="prompt-line" id="promptText">Listen → Answer → Correct → Repeat</p>
+          <button class="replay-button" id="replayButton" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8v5h5M6 12a7 7 0 1 1 2 5"/></svg>
+            REPLAY QUESTION
+          </button>
+        </div>
+      </div>
+
+      <div class="response-zone" id="responseZone">
+        <div class="wave" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        <div class="response-copy">
+          <span class="response-label" id="responseLabel">YOUR RESPONSE</span>
+          <p id="transcript">マイクを押すと、あなたの英語がここに表示されます。</p>
+          <div class="feedback" id="feedback" hidden></div>
+        </div>
+        <button class="mic-button" id="micButton" aria-label="レッスンを始める">
+          <svg class="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 8 6-8 6V6Z"/></svg>
+          <svg class="mic-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 15a4 4 0 0 0 4-4V6a4 4 0 0 0-8 0v5a4 4 0 0 0 4 4Zm-7-4a7 7 0 0 0 14 0M12 18v3M9 21h6"/></svg>
+        </button>
+      </div>
+
+      <div class="score-strip" aria-label="回答評価">
+        <div><span>RESPONSE SPEED</span><strong id="responseTime">--</strong></div>
+        <div><span>FULL SENTENCE</span><strong id="completeness">--</strong></div>
+        <div><span>PATTERN ACCURACY</span><strong id="precision">--</strong></div>
+        <div><span>SESSION SCORE</span><strong id="sessionScore">--</strong></div>
+      </div>
+
+      <div class="repeat-panel" id="repeatPanel" hidden>
+        <span>REPEAT THE CORRECTED ANSWER</span>
+        <p id="repeatAnswer"></p>
+        <div>
+          <button id="recordRepeatButton">RECORD REPEAT</button>
+          <button id="replayAnswerButton">HEAR AGAIN</button>
+          <button id="confirmRepeatButton">I REPEATED IT</button>
+          <button id="nextButton">NEXT →</button>
+        </div>
+      </div>
+
+      <form class="fallback-input" id="fallbackForm">
+        <label for="typedAnswer">音声認識が使えない場合</label>
+        <div><input id="typedAnswer" autocomplete="off" placeholder="Type your answer in English"><button type="submit">CHECK</button></div>
+      </form>
+
+      <div class="lesson-footer">
+        <p><kbd>SPACE</kbd> マイク開始 / 停止</p>
+        <button id="skipButton" disabled>SKIP <span>→</span></button>
+      </div>
+      <p class="legal-note">本サイトは個人学習用の非公式プロトタイプです。Callan Method Organisation との提携・認定を示すものではありません。</p>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
